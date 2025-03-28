@@ -41,7 +41,12 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',  # Corrected this line
+    'allauth.socialaccount.providers.google',
+    'rest_framework',
+    'social_django',
+    'channels',
+    
+
     
 ]
 
@@ -134,9 +139,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
-
+     
     # `allauth` specific authentication methods, such as login by email
     'allauth.account.auth_backends.AuthenticationBackend',
+    'social_core.backends.google.GoogleOAuth2',
 ]
 
 
@@ -156,7 +162,29 @@ SITE_ID = 1
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ASGI_APPLICATION = 'backend_project.asgi.application'
+
+ASGI_APPLICATION = 'authweb.asgi.application'
 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1','https://8000-cs-738230612740-default.cs-asia-southeast1-palm.cloudshell.dev']
+
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '' #'.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ''
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'https://www.googleapis.com/auth/drive.file'
+]
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+}
+
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://8000-cs-738230612740-default.cs-asia-southeast1-palm.cloudshell.dev',
+    # Add other trusted origins here as needed
+]
